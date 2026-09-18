@@ -1,9 +1,11 @@
 import express from 'express'
-import { createProduct, allProducts, countProducts } from '../controllers/productController.js'
+import { createProduct, allProducts, countProducts, getProductId } from '../controllers/productController.js'
 
 const router = express.Router()
 
 router.post('/product', createProduct)
+router.get('/product/:id', getProductId)
+
 router.get('/allProducts', allProducts)
 router.get('/countProducts', countProducts)
 

@@ -1,5 +1,5 @@
 import { db } from "../config/dbConnect.js"
-import { createProduc, allProductsModel } from "../models/productModel.js"
+import { createProduc, allProductsModel, countProductsModel, findProductById } from "../models/productModel.js"
 
 export async function createProductService({ name, description, value }) {
   try {
@@ -34,8 +34,19 @@ export async function countProductsService() {
     const response = await countProductsModel()
     return response.rows
   } catch (error) {
-    console.log(`Erro ao buscar todos produtos:${error?.message}`)
+    console.log(`Erro ao contar os produtos:${error?.message}`)
     throw new Error(`Erro interno do servidor:${error?.message}`)
   }
 }
 
+export async function getProductIdService(id) {
+  const product = await findProductById(id);
+
+  if (!product) {
+    const error = new Error('Nenhum produto encontrado para o ID informado.');
+    error.status = 404;
+    throw error;
+  }
+
+  return product;
+}
